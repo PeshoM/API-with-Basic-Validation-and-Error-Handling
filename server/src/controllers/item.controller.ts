@@ -58,4 +58,18 @@ const updateItem = (req: express.Request, res: express.Response) => {
   res.status(200).json(items[itemIndex]);
 };
 
-export default { getItems, addItem, getItemById, updateItem };
+const deleteItem = (req: express.Request, res: express.Response) => {
+  const { id } = req.params;
+
+  const index = items.findIndex((item) => item.id === id);
+
+  if (index === -1) {
+    res.status(404).json({ error: "Item not found." });
+    return;
+  }
+
+  const deletedItem = items.splice(index, 1)[0];
+  res.status(200).json(deletedItem);
+};
+
+export default { getItems, addItem, getItemById, updateItem, deleteItem };
